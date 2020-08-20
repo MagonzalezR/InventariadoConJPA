@@ -36,7 +36,8 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Contrato.findByFechaInicio", query = "SELECT c FROM Contrato c WHERE c.fechaInicio = :fechaInicio")
     , @NamedQuery(name = "Contrato.findByFechaFinal", query = "SELECT c FROM Contrato c WHERE c.fechaFinal = :fechaFinal")
     , @NamedQuery(name = "Contrato.findByCostoContrato", query = "SELECT c FROM Contrato c WHERE c.costoContrato = :costoContrato")
-    , @NamedQuery(name = "Contrato.findByCostoMensual", query = "SELECT c FROM Contrato c WHERE c.costoMensual = :costoMensual")})
+    , @NamedQuery(name = "Contrato.findByCostoMensual", query = "SELECT c FROM Contrato c WHERE c.costoMensual = :costoMensual")
+    , @NamedQuery(name = "Contrato.findByEmpresa", query = "SELECT c FROM Contrato c WHERE c.empresaClienteidEmpresaCliente = :empresa")})
 public class Contrato implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -158,7 +159,7 @@ public class Contrato implements Serializable {
 
     @Override
     public String toString() {
-        return "Entidad.Contrato[ idContrato=" + idContrato + " ]";
+        return "Entidad.Contrato[ idContrato=" + idContrato + " ]"+empresaClienteidEmpresaCliente;
     }
     
 }

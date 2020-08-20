@@ -20,9 +20,8 @@ import logica.Controlador;
  *
  * @author kil_5
  */
-public class Vista extends JFrame implements ActionListener{
+public class Vista extends JFrame {
     
-    private Controlador con;
     private JButton ingreso;
     private JTextField nombre;
     private JTextField contraseña;
@@ -30,26 +29,17 @@ public class Vista extends JFrame implements ActionListener{
     private JLabel nom;
     private JLabel cont;
     
-    public Vista(Controlador con){
-        this.con=con;
+    public Vista(){
         this.setBounds(0,0,650,350);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setLayout(null);
         this.setLocationRelativeTo(null);
-        initComponents();
-        this.setVisible(true);
-        
-    }
-
-    @Override
-    public void actionPerformed(ActionEvent ae) {
-        con.validarClave(this, nombre.getText(), contraseña.getText());
+        initComponents();        
     }
     
     private void initComponents(){
         ingreso=new JButton("Ingresar");
         ingreso.setBounds(270,250,100,30);
-        ingreso.addActionListener(this);
         
         nombre= new JTextField("");
         nombre.setBounds(200, 110, 250, 40);
@@ -67,6 +57,54 @@ public class Vista extends JFrame implements ActionListener{
         this.add(nombre);
         this.add(contraseña);
         this.add(bienvenida);
+    }
+
+    public JButton getIngreso() {
+        return ingreso;
+    }
+
+    public void setIngreso(JButton ingreso) {
+        this.ingreso = ingreso;
+    }
+
+    public JTextField getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(JTextField nombre) {
+        this.nombre = nombre;
+    }
+
+    public JTextField getContraseña() {
+        return contraseña;
+    }
+
+    public void setContraseña(JTextField contraseña) {
+        this.contraseña = contraseña;
+    }
+
+    public JLabel getBienvenida() {
+        return bienvenida;
+    }
+
+    public void setBienvenida(JLabel bienvenida) {
+        this.bienvenida = bienvenida;
+    }
+
+    public JLabel getNom() {
+        return nom;
+    }
+
+    public void setNom(JLabel nom) {
+        this.nom = nom;
+    }
+
+    public JLabel getCont() {
+        return cont;
+    }
+
+    public void setCont(JLabel cont) {
+        this.cont = cont;
     }
     
 }

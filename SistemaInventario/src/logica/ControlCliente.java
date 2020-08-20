@@ -7,6 +7,7 @@ package logica;
 
 import Entidad.Contratista;
 import Entidad.ContratistaPK;
+import Entidad.Contrato;
 import Entidad.Empresacliente;
 import Entidad.controlador.ContratistaJpaController;
 import Entidad.controlador.EmpresaclienteJpaController;
@@ -70,30 +71,35 @@ public class ControlCliente {
     public boolean retirarCliente(String nombre) {
         Empresacliente empresa = buscarPorNombre(nombre);
         ConexionBD.initEntityManager();
+        ConexionBD.getEm().getTransaction().begin();
         controlContratista = new ContratistaJpaController(ConexionBD.getEmf());
         controlCliente = new EmpresaclienteJpaController(ConexionBD.getEmf());
         ContratistaPK pk = new ContratistaPK(empresa.getIdEmpresaCliente(), empresa.getIdEmpresaCliente());
+        List<Contrato> contrato = ConexionBD.getEm().createNamedQuery("Contrato.findByEmpresa", Contrato.class).setParameter("empresa", empresa).getResultList();
         try {
-            controlContratista.destroy(pk);
-            controlCliente.destroy(empresa.getIdEmpresaCliente());
-            ConexionBD.closeEntityManager();
-            return true;
+            if (contrato.isEmpty()) {
+                controlContratista.destroy(pk);
+                controlCliente.destroy(empresa.getIdEmpresaCliente());
+                ConexionBD.getEm().getTransaction().commit();
+                ConexionBD.closeEntityManager();
+                return true;
+            }
         } catch (NonexistentEntityException | IllegalOrphanException ex) {
             Logger.getLogger(ControlCliente.class.getName()).log(Level.SEVERE, null, ex);
         }
-
+        ConexionBD.getEm().getTransaction().commit();
         ConexionBD.closeEntityManager();
         return false;
     }
-    
-    public String[] clientes(){
-        int i=0;
+
+    public String[] clientes() {
+        int i = 0;
         ConexionBD.initEntityManager();
         controlCliente = new EmpresaclienteJpaController(ConexionBD.getEmf());
         String[] empresas = new String[controlCliente.getEmpresaclienteCount()];
         List<Empresacliente> empr = controlCliente.findEmpresaclienteEntities();
         for (Empresacliente empresa : empr) {
-            empresas[i++]=empresa.getNombreEmpresa();
+            empresas[i++] = empresa.getNombreEmpresa();
         }
         ConexionBD.closeEntityManager();
         return empresas;

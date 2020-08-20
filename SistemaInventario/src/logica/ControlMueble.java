@@ -5,9 +5,10 @@
  */
 package logica;
 
+import Entidad.Contrato;
 import Entidad.Inventarioempresa;
 import Entidad.Mueble;
-import Entidad.controlador.InventarioempresaJpaController;
+import Entidad.controlador.ContratoJpaController;
 import Entidad.controlador.MuebleJpaController;
 import Entidad.controlador.exceptions.NonexistentEntityException;
 import java.util.List;
@@ -21,8 +22,7 @@ import java.util.logging.Logger;
 public class ControlMueble {
 
     private MuebleJpaController controlMueble;
-    private InventarioempresaJpaController controlInv;
-    private int numMueble;
+    private ContratoJpaController controlContrato;
 
     public ControlMueble() {
 
@@ -32,7 +32,6 @@ public class ControlMueble {
         ConexionBD.initEntityManager();
         ConexionBD.getEm().getTransaction().begin();
         controlMueble = new MuebleJpaController(ConexionBD.getEmf());
-        controlInv = new InventarioempresaJpaController(ConexionBD.getEmf());
         Inventarioempresa inventario = ConexionBD.getEm().find(Inventarioempresa.class, 1);
         Mueble mueble = new Mueble(id, nom, tipo, costo);
         mueble.setInventarioEmpresaidInventarioEmpresa(inventario);
@@ -62,31 +61,30 @@ public class ControlMueble {
             ConexionBD.initEntityManager();
             ConexionBD.getEm().getTransaction().begin();
             controlMueble = new MuebleJpaController(ConexionBD.getEmf());
-            if (controlMueble.findMueble(id).getContratoidContrato() != null) {
+            if (controlMueble.findMueble(id).getContratoidContrato() == null) {
                 controlMueble.destroy(id);
-                controlInv = new InventarioempresaJpaController(ConexionBD.getEmf());
                 Inventarioempresa inventario = ConexionBD.getEm().find(Inventarioempresa.class, 1);
                 inventario.setDisponibleEnBodega(inventario.getDisponibleEnBodega() - 1);
                 inventario.setTotalExistencias(inventario.getTotalExistencias() - 1);
+                ConexionBD.getEm().getTransaction().commit();
                 ConexionBD.closeEntityManager();
                 return true;
-            } else {
-                ConexionBD.closeEntityManager();
-                return false;
             }
-
+            ConexionBD.closeEntityManager();
         } catch (NonexistentEntityException ex) {
             Logger.getLogger(ControlMueble.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
+        return false;
     }
 
-    public void contarMuebles(String mueble) {
+    public String contarMuebles(String mueble) {
         ConexionBD.initEntityManager();
         ConexionBD.getEm().getTransaction().begin();
-        System.out.println(ConexionBD.getEm().createNamedQuery("Mueble.countAllTypes").setParameter("tipoMueble", mueble).getSingleResult());
+        Inventarioempresa empresa= ConexionBD.getEm().find(Inventarioempresa.class, 1);
+        Long result =ConexionBD.getEm().createNamedQuery("Mueble.countAllTypes", Long.class).setParameter("tipoMueble", mueble).setParameter("num", empresa).getSingleResult();
         ConexionBD.closeEntityManager();
-        
+        return String.valueOf(result);
     }
     
     public List tipos(){
@@ -104,5 +102,23 @@ public class ControlMueble {
         retorno = ConexionBD.getEm().createNamedQuery("Mueble.getAllMuebles").setParameter("tipoMueble", tipo).getResultList();
         ConexionBD.closeEntityManager();
         return retorno;
+    }
+    
+    public void añadirAContrato(String nombre, int cantidad, int contrato){
+        List<Mueble> muebles;
+        ConexionBD.initEntityManager();
+        ConexionBD.getEm().getTransaction().begin();
+        controlContrato= new ContratoJpaController(ConexionBD.getEmf());
+        Contrato cont = controlContrato.findContrato(contrato);
+        Inventarioempresa empresa= ConexionBD.getEm().find(Inventarioempresa.class, 1);
+        muebles = ConexionBD.getEm().createNamedQuery("Mueble.getAllInventory", Mueble.class).setParameter("nombreMueble", nombre).setParameter("num",empresa).getResultList().subList(0,cantidad);
+        for(Mueble m:muebles){
+            empresa.setDisponibleEnBodega(empresa.getDisponibleEnBodega()-1);
+            empresa.setCantidadAlquilada(empresa.getCantidadAlquilada()+1);
+            m.setInventarioEmpresaidInventarioEmpresa(null);
+            m.setContratoidContrato(cont);
+        }
+        ConexionBD.getEm().getTransaction().commit();
+        ConexionBD.closeEntityManager();
     }
 }

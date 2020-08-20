@@ -19,9 +19,8 @@ import logica.Controlador;
  *
  * @author kil_5
  */
-public class VistaRetCliente extends JFrame implements ActionListener{
+public class VistaRetCliente extends JFrame{
 
-    private Controlador cont;
     private JLabel nombreEmp;
     private JButton buscar;
     private JButton volver;
@@ -29,35 +28,14 @@ public class VistaRetCliente extends JFrame implements ActionListener{
     private JTextField empresa;
     private JTextArea descEmp;
 
-    public VistaRetCliente(Controlador cont) {
-        this.cont=cont;
+    public VistaRetCliente() {
         this.setBounds(0, 0, 800, 550);
         this.setLocationRelativeTo(null);
         this.setLayout(null);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         initComponents();
-        this.setVisible(true);
     }
 
-    @Override
-    public void actionPerformed(ActionEvent ae) {
-        if (ae.getSource()==volver){
-            cont.irAMenu();
-            this.dispose();
-        }else if (ae.getSource()== buscar){
-            if (cont.buscarCliente(empresa.getText())){
-                JOptionPane.showMessageDialog(this, "Cliente encontrado");
-                quitar.setEnabled(true);
-            }else{
-                JOptionPane.showMessageDialog(this, "Cliente no encontrado");
-            }
-        }else{
-            cont.quitarCliente(empresa.getText());
-            quitar.setEnabled(false);
-            descEmp.setText("");
-        }
-    }
-    
     private void initComponents(){
         nombreEmp= new JLabel("Nombre de la empresa: ");
         nombreEmp.setBounds(100, 50, 160, 40);
@@ -67,7 +45,6 @@ public class VistaRetCliente extends JFrame implements ActionListener{
         
         buscar = new JButton("Buscar");
         buscar.setBounds(500, 50, 150, 40);
-        buscar.addActionListener(this);
         
         descEmp = new JTextArea();
         descEmp.setEditable(false);
@@ -76,11 +53,9 @@ public class VistaRetCliente extends JFrame implements ActionListener{
         quitar = new JButton("Quitar empresa");
         quitar.setBounds(520, 300, 150, 40);
         quitar.setEnabled(false);
-        quitar.addActionListener(this);
         
         volver = new JButton("Volver al menu");
         volver.setBounds(200, 400, 150, 40);
-        volver.addActionListener(this);
         
         this.add(nombreEmp);
         this.add(empresa);
@@ -89,7 +64,53 @@ public class VistaRetCliente extends JFrame implements ActionListener{
         this.add(quitar);
         this.add(volver);
     }
-    public void setEmpresa(String texto){
-        descEmp.setText(texto);
+
+    public JLabel getNombreEmp() {
+        return nombreEmp;
     }
+
+    public void setNombreEmp(JLabel nombreEmp) {
+        this.nombreEmp = nombreEmp;
+    }
+
+    public JButton getBuscar() {
+        return buscar;
+    }
+
+    public void setBuscar(JButton buscar) {
+        this.buscar = buscar;
+    }
+
+    public JButton getVolver() {
+        return volver;
+    }
+
+    public void setVolver(JButton volver) {
+        this.volver = volver;
+    }
+
+    public JButton getQuitar() {
+        return quitar;
+    }
+
+    public void setQuitar(JButton quitar) {
+        this.quitar = quitar;
+    }
+
+    public JTextField getEmpresa() {
+        return empresa;
+    }
+
+    public void setEmpresa(JTextField empresa) {
+        this.empresa = empresa;
+    }
+
+    public JTextArea getDescEmp() {
+        return descEmp;
+    }
+
+    public void setDescEmp(JTextArea descEmp) {
+        this.descEmp = descEmp;
+    }
+    
 }

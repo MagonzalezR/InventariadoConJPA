@@ -18,9 +18,8 @@ import logica.Controlador;
  *
  * @author kil_5
  */
-public class VistaAgMueble extends JFrame implements ActionListener {
+public class VistaAgMueble extends JFrame {
 
-    private Controlador cont;
     private JTextField nomMueble;
     private JTextField tipoMueble;
     private JTextField costoMueble;
@@ -32,32 +31,12 @@ public class VistaAgMueble extends JFrame implements ActionListener {
     private JButton volver;
     private JButton agregar;
 
-    public VistaAgMueble(Controlador cont) {
-        this.cont = cont;
+    public VistaAgMueble() {
         this.setBounds(0, 0, 500, 550);
         this.setLocationRelativeTo(null);
         this.setLayout(null);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         initComponents();
-        this.setVisible(true);
-    }
-
-    @Override
-    public void actionPerformed(ActionEvent ae) {
-        if (ae.getSource() == volver) {
-            cont.irAMenu();
-            this.dispose();
-        } else {
-            if (!nomMueble.getText().equals("") && !tipoMueble.getText().equals("") && !costoMueble.getText().equals("") && !cantMueble.getText().equals("")) {
-                try {
-                    cont.agregarMueble(nomMueble.getText(), tipoMueble.getText(), Integer.parseInt(costoMueble.getText()), Integer.parseInt(cantMueble.getText()));
-                } catch (NumberFormatException w) {
-                    JOptionPane.showMessageDialog(this, "El costo del mueble o el identificador no son validos");
-                }
-            } else {
-                JOptionPane.showMessageDialog(this, "Uno o varios campos estan vacios");
-            }
-        }
     }
 
     private void initComponents() {
@@ -87,11 +66,9 @@ public class VistaAgMueble extends JFrame implements ActionListener {
 
         volver = new JButton("Volver al menu");
         volver.setBounds(80, 440, 150, 40);
-        volver.addActionListener(this);
 
         agregar = new JButton("Ingresar mueble(s)");
         agregar.setBounds(250, 440, 150, 40);
-        agregar.addActionListener(this);
 
         this.add(nombre);
         this.add(nomMueble);
@@ -104,4 +81,85 @@ public class VistaAgMueble extends JFrame implements ActionListener {
         this.add(volver);
         this.add(agregar);
     }
+
+    public JTextField getNomMueble() {
+        return nomMueble;
+    }
+
+    public void setNomMueble(JTextField nomMueble) {
+        this.nomMueble = nomMueble;
+    }
+
+    public JTextField getTipoMueble() {
+        return tipoMueble;
+    }
+
+    public void setTipoMueble(JTextField tipoMueble) {
+        this.tipoMueble = tipoMueble;
+    }
+
+    public JTextField getCostoMueble() {
+        return costoMueble;
+    }
+
+    public void setCostoMueble(JTextField costoMueble) {
+        this.costoMueble = costoMueble;
+    }
+
+    public JTextField getCantMueble() {
+        return cantMueble;
+    }
+
+    public void setCantMueble(JTextField cantMueble) {
+        this.cantMueble = cantMueble;
+    }
+
+    public JLabel getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(JLabel nombre) {
+        this.nombre = nombre;
+    }
+
+    public JLabel getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(JLabel tipo) {
+        this.tipo = tipo;
+    }
+
+    public JLabel getCosto() {
+        return costo;
+    }
+
+    public void setCosto(JLabel costo) {
+        this.costo = costo;
+    }
+
+    public JLabel getCantidad() {
+        return cantidad;
+    }
+
+    public void setCantidad(JLabel cantidad) {
+        this.cantidad = cantidad;
+    }
+
+    public JButton getVolver() {
+        return volver;
+    }
+
+    public void setVolver(JButton volver) {
+        this.volver = volver;
+    }
+
+    public JButton getAgregar() {
+        return agregar;
+    }
+
+    public void setAgregar(JButton agregar) {
+        this.agregar = agregar;
+    }
+    
 }

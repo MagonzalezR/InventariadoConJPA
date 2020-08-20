@@ -30,9 +30,11 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "Mueble.findByNombreMueble", query = "SELECT m FROM Mueble m WHERE m.nombreMueble = :nombreMueble")
     , @NamedQuery(name = "Mueble.findByTipoMueble", query = "SELECT m FROM Mueble m WHERE m.tipoMueble = :tipoMueble")
     , @NamedQuery(name = "Mueble.findByCostoMueble", query = "SELECT m FROM Mueble m WHERE m.costoMueble = :costoMueble")
-    , @NamedQuery(name = "Mueble.countAllTypes", query = "SELECT count( m.nombreMueble) from Mueble m where m.tipoMueble = :tipoMueble")
+    , @NamedQuery(name = "Mueble.findByContrato", query = "SELECT m FROM Mueble m WHERE m.contratoidContrato = :idContrato")
+    , @NamedQuery(name = "Mueble.countAllTypes", query = "SELECT count( m) from Mueble m where m.nombreMueble = :tipoMueble and m.inventarioEmpresaidInventarioEmpresa= :num")
     , @NamedQuery(name = "Mueble.getAllTypes", query = "SELECT DISTINCT m.tipoMueble from Mueble m")
-    , @NamedQuery(name = "Mueble.getAllMuebles", query = "SELECT DISTINCT m.nombreMueble from Mueble m where m.tipoMueble = :tipoMueble")})
+    , @NamedQuery(name = "Mueble.getAllMuebles", query = "SELECT DISTINCT m.nombreMueble from Mueble m where m.tipoMueble = :tipoMueble")
+    , @NamedQuery(name = "Mueble.getAllInventory", query = "SELECT m from Mueble m where m.nombreMueble = :nombreMueble and m.inventarioEmpresaidInventarioEmpresa = :num")})
 public class Mueble implements Serializable {
 
     private static final long serialVersionUID = 1L;

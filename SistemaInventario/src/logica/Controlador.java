@@ -6,8 +6,8 @@
 package logica;
 
 import Entidad.Empresacliente;
-import GUI.*;
-import java.util.ArrayList;
+import ControlVistas.*;
+import java.sql.Date;
 import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -18,61 +18,60 @@ import javax.swing.JOptionPane;
  */
 public class Controlador {
 
-    private Vista login;
-    private VistaMenu menu;
-    private VistaAgCliente agrCliente;
-    private VistaAgMueble agrMueble;
-    private VistaRetCliente retCliente;
-    private VistaRetMueble retMueble;
-    private VistaContrato contr;
-    private VistaAdmMueble admMueble;
+    private VistaAction login;
+    private VistaMenuAction menu;
+    private VistaAgClienteAction agrCliente;
+    private VistaAgMuebleAction agrMueble;
+    private VistaRetClienteAction retCliente;
+    private VistaRetMuebleAction retMueble;
+    private VistaContratoAction contr;
+    private VistaAdmMuebleAction admMueble;
     private ControlCliente contCliente;
     private ControlMueble contMueble;
+    private ControlContrato contContrato;
 
     public Controlador() {
-        
-        //login = new Vista(this);
+
+        login = new VistaAction(this);
+        //login.crearVista();
+        ConexionBD.initEntityManager();
+        ConexionBD.closeEntityManager();
         contCliente = new ControlCliente();
         contMueble = new ControlMueble();
-        admMueble = new VistaAdmMueble(this);
+        contContrato = new ControlContrato();
+        menu = new VistaMenuAction(this);
+        agrCliente = new VistaAgClienteAction(this);
+        agrMueble = new VistaAgMuebleAction(this);
+        retCliente = new VistaRetClienteAction(this);
+        retMueble = new VistaRetMuebleAction(this);
+        contr = new VistaContratoAction(this);
+        admMueble = new VistaAdmMuebleAction(this);
+        admMueble.crearVista();
     }
 
-    public void validarClave(JFrame ventana, String nombre, String contr) {
-        if (nombre.equals("DianaAdmin") && contr.equals("AdminPass")) {
-            JOptionPane.showMessageDialog(ventana, "Acceso concedido");
-            login.dispose();
-            menu = new VistaMenu(this);
-            menu.setVisible(true);
-        } else {
-            JOptionPane.showMessageDialog(ventana, "Acceso denegado");
-        }
+    public boolean validarClave(String nombre, String contr) {
+        return nombre.equals("DianaAdmin") && contr.equals("AdminPass");
     }
 
     public void elegirOpcion(int opc) {
         switch (opc) {
             case 1:
-                agrCliente = new VistaAgCliente(this);
-                agrCliente.setVisible(true);
+                agrCliente.crearVista();
                 break;
             case 2:
-                agrMueble = new VistaAgMueble(this);
-                agrMueble.setVisible(true);
+                agrMueble.crearVista();
                 break;
             case 3:
-                retCliente = new VistaRetCliente(this);
-                retCliente.setVisible(true);
+                retCliente.crearVista();
                 break;
             case 4:
-                retMueble = new VistaRetMueble(this);
-                retMueble.setVisible(true);
+                retMueble.crearVista();
                 break;
             case 5:
-                contr = new VistaContrato(this);
-                contr.setVisible(true);
+//                contr.setVisible(true);
                 break;
             case 6:
-                admMueble = new VistaAdmMueble(this);
-                admMueble.setVisible(true);
+                admMueble.crearVista();
                 break;
             default:
                 break;
@@ -80,45 +79,46 @@ public class Controlador {
     }
 
     public void irAMenu() {
-        menu = new VistaMenu(this);
-        menu.setVisible(true);
+        menu.iniciarVista();
     }
 
     public void agregarCliente(String nomCont, String apeCont, String telCont, String corrCont, String nomEmp, String nitEmp, String dirEmp, String telEmp) {
         if (contCliente.AgregarCliente(nomCont, apeCont, telCont, corrCont, nomEmp, nitEmp, dirEmp, telEmp)) {
-            JOptionPane.showMessageDialog(agrCliente, "El cliente fue agregado exitosamente");
+            agrCliente.mensaje("El cliente fue agregado exitosamente");
         } else {
-            JOptionPane.showMessageDialog(agrCliente, "El cliente no ha podido ser agregado");
+            agrCliente.mensaje("El cliente no ha podido ser agregado");
         }
     }
-    
-    public boolean buscarCliente(String nombre){
+
+    public boolean buscarCliente(String nombre) {
         Empresacliente empresa = contCliente.buscarPorNombre(nombre);
-        if (empresa!=null){
+        if (empresa != null) {
             retCliente.setEmpresa(empresa.toString());
             return true;
         }
         return false;
     }
-    
-    public void quitarCliente(String nombre){
-        if(contCliente.retirarCliente(nombre)){
-            JOptionPane.showMessageDialog(retCliente, "Cliente retirado exitosamente");
+
+    public void quitarCliente(String nombre) {
+        if (contCliente.retirarCliente(nombre)) {
+            retCliente.mensaje("Cliente retirado exitosamente");
+        } else {
+            retCliente.mensaje("No se ha podido retirar el cliente");
         }
     }
 
     public void agregarMueble(String nom, String tipo, int costo, int id) {
         if (contMueble.agregar(nom, tipo, costo, id)) {
-            JOptionPane.showMessageDialog(agrMueble, "El mueble ha sido agregado correctamente");
+            agrMueble.mensaje("El mueble ha sido agregado correctamente");
         } else {
-            JOptionPane.showMessageDialog(agrMueble, "No se ha podido agregar el mueble");
+            agrMueble.mensaje("No se ha podido agregar el mueble");
         }
     }
 
     public boolean buscarMueble(int id) {
         try {
             String ret = contMueble.buscarMueble(id);
-            retMueble.actDesc(ret);
+            retMueble.descripcionMueble(ret);
             return true;
         } catch (NullPointerException e) {
             return false;
@@ -127,36 +127,56 @@ public class Controlador {
 
     public void quitarMueble(int id) {
         if (contMueble.borrarMueble(id)) {
-            JOptionPane.showMessageDialog(retMueble, "el mueble ha sido retirado exitosamente");
+            retMueble.mensaje("el mueble ha sido retirado exitosamente");
+        } else {
+            retMueble.mensaje("el mueble no ha sido retirado, compruebe que no aparezca en ningun contrato");
         }
     }
-    
-    public String[] traerClientes(){
+
+    public String[] traerClientes() {
         return contCliente.clientes();
     }
-    
-    public void contarMuebles(String mueble){
-        contMueble.contarMuebles(mueble);
+
+    public String contarMuebles(String mueble) {
+        return contMueble.contarMuebles(mueble);
     }
-    public String[] traerTipos(){
-        List<String> muebles =contMueble.tipos(); 
-        String[] retorno=new String[muebles.size()];
-        for(int i=0;i<muebles.size();i++){
-            retorno[i]= muebles.get(i);
+
+    public String[] traerTipos() {
+        List<String> muebles = contMueble.tipos();
+        String[] retorno = new String[muebles.size()];
+        for (int i = 0; i < muebles.size(); i++) {
+            retorno[i] = muebles.get(i);
             System.out.println(retorno[i]);
         }
-        
+
         return retorno;
     }
-    public String[] traerMuebles(String tipo){
-        List<String> muebles =contMueble.muebles(tipo); 
-        String[] retorno=new String[muebles.size()];
-        for(int i=0;i<muebles.size();i++){
-            retorno[i]= muebles.get(i);
+
+    public String[] traerMuebles(String tipo) {
+        List<String> muebles = contMueble.muebles(tipo);
+        String[] retorno = new String[muebles.size()];
+        System.out.println(retorno + tipo);
+        for (int i = 0; i < muebles.size(); i++) {
+            retorno[i] = muebles.get(i);
             System.out.println(retorno[i]);
         }
-        
+
         return retorno;
     }
-    
+
+    public int contratoProvisional(Date inicio, Date fin, int costo, int id) {
+        return contContrato.crearContrato(inicio, fin, costo, id);
+    }
+
+    public void añadirMuebles(String nombre, int cantidad, int contrato) {
+        contMueble.añadirAContrato(nombre, cantidad, contrato);
+    }
+
+    public void crearContrato(int contrato, String empresa) {
+        contContrato.contratoEmpresa(contrato, empresa);
+    }
+
+    public void borrarContrato(int contrato) {
+        contContrato.borrarContrato(contrato);
+    }
 }

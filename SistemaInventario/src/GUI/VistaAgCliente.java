@@ -18,7 +18,7 @@ import logica.Controlador;
  *
  * @author kil_5
  */
-public class VistaAgCliente extends JFrame implements ActionListener{
+public class VistaAgCliente extends JFrame{
 
     private JTextField nomCont;
     private JTextField apeCont;
@@ -38,29 +38,13 @@ public class VistaAgCliente extends JFrame implements ActionListener{
     private JLabel empTel;
     private JButton volver;
     private JButton ingresarDatos;
-    private Controlador cont;
 
-    public VistaAgCliente(Controlador cont) {
-        this.cont=cont;
+    public VistaAgCliente() {
         this.setBounds(0, 0, 900, 550);
         this.setLocationRelativeTo(null);
         this.setLayout(null);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         initComponents();
-        this.setVisible(true);
-    }
-
-    @Override
-    public void actionPerformed(ActionEvent ae) {
-        if (ae.getSource()==volver){
-            cont.irAMenu();
-            this.dispose();
-        }else{
-            if(!nomCont.getText().equals("") && !apeCont.getText().equals("") && !telCont.getText().equals("") && !corrCont.getText().equals("") && !nomEmp.getText().equals("") && !nitEmp.getText().equals("") && !dirEmp.getText().equals("") && !telEmp.getText().equals("")){
-                cont.agregarCliente(nomCont.getText(), apeCont.getText(), telCont.getText(), corrCont.getText(), nomEmp.getText(), nitEmp.getText(), dirEmp.getText(), telEmp.getText());
-            }
-            else JOptionPane.showMessageDialog(this, "Uno o varios campos estan vacios");
-        }
     }
     
     private void initComponents(){
@@ -114,11 +98,9 @@ public class VistaAgCliente extends JFrame implements ActionListener{
         
         volver= new JButton("Volver Al Menu");
         volver.setBounds(60, 400, 140, 50);
-        volver.addActionListener(this);
         
         ingresarDatos= new JButton("Ingresar Cliente");
         ingresarDatos.setBounds(680, 400, 160, 50);
-        ingresarDatos.addActionListener(this);
         
         this.add(contNomb);
         this.add(nomCont);
@@ -139,4 +121,149 @@ public class VistaAgCliente extends JFrame implements ActionListener{
         this.add(volver);
         this.add(ingresarDatos);
     }
+
+    public JTextField getNomCont() {
+        return nomCont;
+    }
+
+    public void setNomCont(JTextField nomCont) {
+        this.nomCont = nomCont;
+    }
+
+    public JTextField getApeCont() {
+        return apeCont;
+    }
+
+    public void setApeCont(JTextField apeCont) {
+        this.apeCont = apeCont;
+    }
+
+    public JTextField getTelCont() {
+        return telCont;
+    }
+
+    public void setTelCont(JTextField telCont) {
+        this.telCont = telCont;
+    }
+
+    public JTextField getCorrCont() {
+        return corrCont;
+    }
+
+    public void setCorrCont(JTextField corrCont) {
+        this.corrCont = corrCont;
+    }
+
+    public JTextField getNomEmp() {
+        return nomEmp;
+    }
+
+    public void setNomEmp(JTextField nomEmp) {
+        this.nomEmp = nomEmp;
+    }
+
+    public JTextField getNitEmp() {
+        return nitEmp;
+    }
+
+    public void setNitEmp(JTextField nitEmp) {
+        this.nitEmp = nitEmp;
+    }
+
+    public JTextField getDirEmp() {
+        return dirEmp;
+    }
+
+    public void setDirEmp(JTextField dirEmp) {
+        this.dirEmp = dirEmp;
+    }
+
+    public JTextField getTelEmp() {
+        return telEmp;
+    }
+
+    public void setTelEmp(JTextField telEmp) {
+        this.telEmp = telEmp;
+    }
+
+    public JLabel getContNomb() {
+        return contNomb;
+    }
+
+    public void setContNomb(JLabel contNomb) {
+        this.contNomb = contNomb;
+    }
+
+    public JLabel getContApe() {
+        return contApe;
+    }
+
+    public void setContApe(JLabel contApe) {
+        this.contApe = contApe;
+    }
+
+    public JLabel getContTel() {
+        return contTel;
+    }
+
+    public void setContTel(JLabel contTel) {
+        this.contTel = contTel;
+    }
+
+    public JLabel getContCorr() {
+        return contCorr;
+    }
+
+    public void setContCorr(JLabel contCorr) {
+        this.contCorr = contCorr;
+    }
+
+    public JLabel getEmpNomb() {
+        return empNomb;
+    }
+
+    public void setEmpNomb(JLabel empNomb) {
+        this.empNomb = empNomb;
+    }
+
+    public JLabel getEmpNit() {
+        return empNit;
+    }
+
+    public void setEmpNit(JLabel empNit) {
+        this.empNit = empNit;
+    }
+
+    public JLabel getEmpDir() {
+        return empDir;
+    }
+
+    public void setEmpDir(JLabel empDir) {
+        this.empDir = empDir;
+    }
+
+    public JLabel getEmpTel() {
+        return empTel;
+    }
+
+    public void setEmpTel(JLabel empTel) {
+        this.empTel = empTel;
+    }
+
+    public JButton getVolver() {
+        return volver;
+    }
+
+    public void setVolver(JButton volver) {
+        this.volver = volver;
+    }
+
+    public JButton getIngresarDatos() {
+        return ingresarDatos;
+    }
+
+    public void setIngresarDatos(JButton ingresarDatos) {
+        this.ingresarDatos = ingresarDatos;
+    }
+    
 }

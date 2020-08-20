@@ -19,9 +19,8 @@ import logica.Controlador;
  *
  * @author kil_5
  */
-public class VistaRetMueble extends JFrame implements ActionListener {
+public class VistaRetMueble extends JFrame {
 
-    private Controlador cont;
     private JLabel idMueble;
     private JButton buscar;
     private JButton volver;
@@ -29,43 +28,12 @@ public class VistaRetMueble extends JFrame implements ActionListener {
     private JTextField mueble;
     private JTextArea descMueble;
 
-    public VistaRetMueble(Controlador cont) {
-        this.cont = cont;
+    public VistaRetMueble() {
         this.setBounds(0, 0, 900, 550);
         this.setLocationRelativeTo(null);
         this.setLayout(null);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         initComponents();
-        this.setVisible(true);
-    }
-
-    @Override
-    public void actionPerformed(ActionEvent ae) {
-        if (ae.getSource() == volver) {
-            cont.irAMenu();
-            this.dispose();
-        } else if (ae.getSource() == buscar) {
-            try {
-                if (cont.buscarMueble(Integer.parseInt(mueble.getText()))) {
-                    JOptionPane.showMessageDialog(this, "Mueble encontrado");
-                    quitar.setEnabled(true);
-                    mueble.setEditable(false);
-                } else {
-                    JOptionPane.showMessageDialog(this, "Mueble no encontrado");
-                }
-            } catch (NumberFormatException w) {
-                JOptionPane.showMessageDialog(this, "Identificador no valido");
-            }
-        } else {
-            try {
-                cont.quitarMueble(Integer.parseInt(mueble.getText()));
-                quitar.setEnabled(false);
-                descMueble.setText("");
-                mueble.setEditable(true);
-            } catch (NumberFormatException w) {
-                JOptionPane.showMessageDialog(this, "Identificador no valido");
-            }
-        }
     }
 
     private void initComponents() {
@@ -77,7 +45,6 @@ public class VistaRetMueble extends JFrame implements ActionListener {
 
         buscar = new JButton("Buscar");
         buscar.setBounds(500, 50, 150, 40);
-        buscar.addActionListener(this);
 
         descMueble = new JTextArea();
         descMueble.setEditable(false);
@@ -86,11 +53,9 @@ public class VistaRetMueble extends JFrame implements ActionListener {
         quitar = new JButton("Borrar mueble");
         quitar.setBounds(520, 300, 150, 40);
         quitar.setEnabled(false);
-        quitar.addActionListener(this);
 
         volver = new JButton("Volver al menu");
         volver.setBounds(200, 400, 150, 40);
-        volver.addActionListener(this);
 
         this.add(idMueble);
         this.add(mueble);
@@ -103,4 +68,53 @@ public class VistaRetMueble extends JFrame implements ActionListener {
     public void actDesc(String texto) {
         descMueble.setText(texto);
     }
+
+    public JLabel getIdMueble() {
+        return idMueble;
+    }
+
+    public void setIdMueble(JLabel idMueble) {
+        this.idMueble = idMueble;
+    }
+
+    public JButton getBuscar() {
+        return buscar;
+    }
+
+    public void setBuscar(JButton buscar) {
+        this.buscar = buscar;
+    }
+
+    public JButton getVolver() {
+        return volver;
+    }
+
+    public void setVolver(JButton volver) {
+        this.volver = volver;
+    }
+
+    public JButton getQuitar() {
+        return quitar;
+    }
+
+    public void setQuitar(JButton quitar) {
+        this.quitar = quitar;
+    }
+
+    public JTextField getMueble() {
+        return mueble;
+    }
+
+    public void setMueble(JTextField mueble) {
+        this.mueble = mueble;
+    }
+
+    public JTextArea getDescMueble() {
+        return descMueble;
+    }
+
+    public void setDescMueble(JTextArea descMueble) {
+        this.descMueble = descMueble;
+    }
+    
 }
