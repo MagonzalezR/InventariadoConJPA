@@ -33,6 +33,7 @@ public class Vista extends JFrame {
         this.setBounds(0,0,650,350);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setLayout(null);
+        this.setResizable(false);
         this.setLocationRelativeTo(null);
         initComponents();        
     }

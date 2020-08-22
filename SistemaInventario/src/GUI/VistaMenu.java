@@ -28,6 +28,7 @@ public class VistaMenu extends JFrame {
         this.setBounds(0, 0, 900, 550);
         this.setLocationRelativeTo(null);
         this.setLayout(null);
+        this.setResizable(false);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         initComponents();
 

@@ -41,13 +41,17 @@ public class VistaAdmMuebleAction implements ActionListener{
                             Date sqlFin = new Date(fini);
                             contrato = controller.contratoProvisional(sqlIni, sqlFin, Integer.valueOf(vista.getCostoTotal().getText()), Integer.valueOf(vista.getTextFieldId().getText()));
                         }
-                        controller.añadirMuebles((String) vista.getComboBoxmuebles().getSelectedItem(), Integer.valueOf(vista.getTextFieldCantidad().getText()), contrato);
-                        vista.getPanelInfo().setText(vista.getPanelInfo().getText() + vista.getComboBoxmuebles().getSelectedItem() + "  Cantidad  " + vista.getTextFieldCantidad().getText() + "\n");
-                        vista.getComboBoxmuebles().removeActionListener(this);
-                        vista.getComboBoxmuebles().setSelectedIndex(0);
-                        vista.getComboBoxmuebles().addActionListener(this);
+                        if(contrato!=0){
+                            controller.añadirMuebles((String) vista.getComboBoxmuebles().getSelectedItem(), Integer.valueOf(vista.getTextFieldCantidad().getText()), contrato);
+                            vista.getPanelInfo().setText(vista.getPanelInfo().getText() + vista.getComboBoxmuebles().getSelectedItem() + "  Cantidad  " + vista.getTextFieldCantidad().getText() + "\n");
+                            vista.getComboBoxmuebles().removeActionListener(this);
+                            vista.getComboBoxmuebles().setSelectedIndex(0);
+                            vista.getComboBoxmuebles().addActionListener(this);
+                        }else{
+                            mensaje("Verifique las fechas del contrato");
+                        }
                     } else {
-                        mensaje("No hay tantos muebles en bodega");
+                        mensaje("Verifique que la cantidad de muebles y el identificador esten bien");
                     }
                 } else {
                     mensaje("Hay campos vacios");
@@ -59,6 +63,7 @@ public class VistaAdmMuebleAction implements ActionListener{
             if (contrato != 0) {
                 controller.borrarContrato(contrato);
             }
+            contrato=0;
             controller.irAMenu();
             vista.dispose();
         } else if (ae.getSource() == vista.getComboBoxTipo()) {

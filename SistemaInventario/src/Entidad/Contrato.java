@@ -159,7 +159,12 @@ public class Contrato implements Serializable {
 
     @Override
     public String toString() {
-        return "Entidad.Contrato[ idContrato=" + idContrato + " ]"+empresaClienteidEmpresaCliente;
+        java.sql.Date sqlIni = new java.sql.Date(fechaInicio.getTime());
+        java.sql.Date sqlFin = new java.sql.Date(fechaFinal.getTime());
+        return "Numero de contrato: " + idContrato + "\n\nEmpresa cliente: "+empresaClienteidEmpresaCliente+
+                "\n\nFecha de inicio del contrato: "+sqlIni +"\n\nFecha de finalizacion del contrato: "+sqlFin+
+                "\n\nCosto total del contrato: "+ costoContrato + "\n\nCosto mensual: "+costoMensual+
+                "\n\nMuebles en el contrato: \n";
     }
     
 }

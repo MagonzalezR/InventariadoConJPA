@@ -34,7 +34,6 @@ public class VistaRetMuebleAction implements ActionListener{
                 if (controller.buscarMueble(Integer.parseInt(vista.getMueble().getText()))) {
                     JOptionPane.showMessageDialog(vista, "Mueble encontrado");
                     vista.getQuitar().setEnabled(true);
-                    vista.getMueble().setEditable(false);
                 } else {
                     JOptionPane.showMessageDialog(vista, "Mueble no encontrado");
                 }
@@ -46,7 +45,6 @@ public class VistaRetMuebleAction implements ActionListener{
                 controller.quitarMueble(Integer.parseInt(vista.getMueble().getText()));
                 vista.getQuitar().setEnabled(false);
                 vista.getDescMueble().setText("");
-                vista.getMueble().setEditable(true);
             } catch (NumberFormatException w) {
                 JOptionPane.showMessageDialog(vista, "Identificador no valido");
             }

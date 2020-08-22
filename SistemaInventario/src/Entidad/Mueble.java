@@ -29,7 +29,6 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "Mueble.findByIdMueble", query = "SELECT m FROM Mueble m WHERE m.idMueble = :idMueble")
     , @NamedQuery(name = "Mueble.findByNombreMueble", query = "SELECT m FROM Mueble m WHERE m.nombreMueble = :nombreMueble")
     , @NamedQuery(name = "Mueble.findByTipoMueble", query = "SELECT m FROM Mueble m WHERE m.tipoMueble = :tipoMueble")
-    , @NamedQuery(name = "Mueble.findByCostoMueble", query = "SELECT m FROM Mueble m WHERE m.costoMueble = :costoMueble")
     , @NamedQuery(name = "Mueble.findByContrato", query = "SELECT m FROM Mueble m WHERE m.contratoidContrato = :idContrato")
     , @NamedQuery(name = "Mueble.countAllTypes", query = "SELECT count( m) from Mueble m where m.nombreMueble = :tipoMueble and m.inventarioEmpresaidInventarioEmpresa= :num")
     , @NamedQuery(name = "Mueble.getAllTypes", query = "SELECT DISTINCT m.tipoMueble from Mueble m")
@@ -48,9 +47,6 @@ public class Mueble implements Serializable {
     @Basic(optional = false)
     @Column(name = "tipoMueble")
     private String tipoMueble;
-    @Basic(optional = false)
-    @Column(name = "costoMueble")
-    private int costoMueble;
     @JoinColumn(name = "Contrato_idContrato", referencedColumnName = "idContrato")
     @ManyToOne
     private Contrato contratoidContrato;
@@ -65,11 +61,10 @@ public class Mueble implements Serializable {
         this.idMueble = idMueble;
     }
 
-    public Mueble(Integer idMueble, String nombreMueble, String tipoMueble, int costoMueble) {
+    public Mueble(Integer idMueble, String nombreMueble, String tipoMueble) {
         this.idMueble = idMueble;
         this.nombreMueble = nombreMueble;
         this.tipoMueble = tipoMueble;
-        this.costoMueble = costoMueble;
     }
 
     public Integer getIdMueble() {
@@ -94,14 +89,6 @@ public class Mueble implements Serializable {
 
     public void setTipoMueble(String tipoMueble) {
         this.tipoMueble = tipoMueble;
-    }
-
-    public int getCostoMueble() {
-        return costoMueble;
-    }
-
-    public void setCostoMueble(int costoMueble) {
-        this.costoMueble = costoMueble;
     }
 
     public Contrato getContratoidContrato() {
@@ -142,7 +129,7 @@ public class Mueble implements Serializable {
 
     @Override
     public String toString() {
-        return "Entidad.Mueble[ idMueble=" + idMueble + " ]";
+        return "Identificador del mueble: "+idMueble+",\t"+"nombre: "+nombreMueble+"\n";
     }
     
 }

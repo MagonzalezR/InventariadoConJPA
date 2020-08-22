@@ -142,7 +142,8 @@ public class Contratista implements Serializable {
 
     @Override
     public String toString() {
-        return "Entidad.Contratista[ contratistaPK=" + contratistaPK + " ]";
+        return "Nombre del contacto: "+nombreContratista + " "+ apellidoContratista + 
+                "\nTeléfono: "+telefonoContratista + "\nCorreo de contacto: "+correoContratista;
     }
     
 }

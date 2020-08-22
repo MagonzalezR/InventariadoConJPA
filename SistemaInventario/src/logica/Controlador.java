@@ -33,9 +33,9 @@ public class Controlador {
     public Controlador() {
 
         login = new VistaAction(this);
-        //login.crearVista();
-        ConexionBD.initEntityManager();
-        ConexionBD.closeEntityManager();
+//        login.crearVista();
+//        ConexionBD.initEntityManager();
+//        ConexionBD.closeEntityManager();
         contCliente = new ControlCliente();
         contMueble = new ControlMueble();
         contContrato = new ControlContrato();
@@ -46,7 +46,7 @@ public class Controlador {
         retMueble = new VistaRetMuebleAction(this);
         contr = new VistaContratoAction(this);
         admMueble = new VistaAdmMuebleAction(this);
-        admMueble.crearVista();
+        contr.crearVista();
     }
 
     public boolean validarClave(String nombre, String contr) {
@@ -68,7 +68,7 @@ public class Controlador {
                 retMueble.crearVista();
                 break;
             case 5:
-//                contr.setVisible(true);
+                contr.crearVista();
                 break;
             case 6:
                 admMueble.crearVista();
@@ -107,8 +107,8 @@ public class Controlador {
         }
     }
 
-    public void agregarMueble(String nom, String tipo, int costo, int id) {
-        if (contMueble.agregar(nom, tipo, costo, id)) {
+    public void agregarMueble(String nom, String tipo, int id) {
+        if (contMueble.agregar(nom, tipo, id)) {
             agrMueble.mensaje("El mueble ha sido agregado correctamente");
         } else {
             agrMueble.mensaje("No se ha podido agregar el mueble");
@@ -173,10 +173,15 @@ public class Controlador {
     }
 
     public void crearContrato(int contrato, String empresa) {
+        System.out.println(contrato + "  "+ empresa);
         contContrato.contratoEmpresa(contrato, empresa);
     }
 
     public void borrarContrato(int contrato) {
         contContrato.borrarContrato(contrato);
+    }
+    
+    public String buscarContraro(int id){
+        return contContrato.buscarContrato(id);
     }
 }

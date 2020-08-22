@@ -10,9 +10,6 @@ import Entidad.Empresacliente;
 import Entidad.Inventarioempresa;
 import Entidad.Mueble;
 import Entidad.controlador.ContratoJpaController;
-import Entidad.controlador.EmpresaclienteJpaController;
-import Entidad.controlador.InventarioempresaJpaController;
-import Entidad.controlador.MuebleJpaController;
 import Entidad.controlador.exceptions.NonexistentEntityException;
 import java.sql.Date;
 import java.util.List;
@@ -25,16 +22,18 @@ import java.util.logging.Logger;
  */
 public class ControlContrato {
     private ContratoJpaController controlContrato;
-    private EmpresaclienteJpaController controlEmpresa;
-    private MuebleJpaController controlMueble;
-    private InventarioempresaJpaController controlInventario;
     
     public int crearContrato(Date inicio, Date fin, int costo, int id){
         try {
-            int duracion= fin.getMonth()-inicio.getMonth();
+            long duracion= fin.getTime()-inicio.getTime();
+            if(duracion<=0){
+                return 0;
+            }else{
+                duracion = costo/(fin.getMonth()-inicio.getMonth() +1);
+            }
             ConexionBD.initEntityManager();
             controlContrato= new ContratoJpaController(ConexionBD.getEmf());
-            Contrato contrato= new Contrato(id, inicio, fin, costo, duracion);
+            Contrato contrato= new Contrato(id, inicio, fin, costo, (int)duracion);
             controlContrato.create(contrato);
             ConexionBD.closeEntityManager();
             return id;
@@ -46,21 +45,12 @@ public class ControlContrato {
     public void contratoEmpresa(int contrato, String empresa){
         ConexionBD.initEntityManager();
         ConexionBD.getEm().getTransaction().begin();
-        controlContrato=  new ContratoJpaController(ConexionBD.getEmf());
-        Contrato contratoNuevo = controlContrato.findContrato(contrato);
+        Contrato contratoNuevo = ConexionBD.getEm().find(Contrato.class, contrato);
         Empresacliente empresaContrato = ConexionBD.getEm().createNamedQuery("Empresacliente.findByNombreEmpresa", Empresacliente.class).setParameter("nombreEmpresa", empresa).getSingleResult();
+        System.out.println(empresaContrato.toString());
         contratoNuevo.setEmpresaClienteidEmpresaCliente(empresaContrato);
-        try {
-            controlContrato.destroy(contrato);
-            controlContrato.create(contratoNuevo);
-        } catch (NonexistentEntityException ex) {
-            Logger.getLogger(ControlContrato.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (Exception ex) {
-            Logger.getLogger(ControlContrato.class.getName()).log(Level.SEVERE, null, ex);
-        }
         ConexionBD.getEm().getTransaction().commit();
         ConexionBD.closeEntityManager();
-        
     }
     
     public void borrarContrato(int contrato){
@@ -68,7 +58,6 @@ public class ControlContrato {
         ConexionBD.initEntityManager();
         ConexionBD.getEm().getTransaction().begin();
         controlContrato=  new ContratoJpaController(ConexionBD.getEmf());
-        controlInventario = new InventarioempresaJpaController(ConexionBD.getEmf());
         Contrato contratoB = controlContrato.findContrato(contrato);
         Inventarioempresa amo = ConexionBD.getEm().find(Inventarioempresa.class, 1);
         muebles = ConexionBD.getEm().createNamedQuery("Mueble.findByContrato").setParameter("idContrato", contratoB).getResultList();
@@ -85,5 +74,22 @@ public class ControlContrato {
         }
         ConexionBD.getEm().getTransaction().commit();
         ConexionBD.closeEntityManager();
+    }
+    
+    public String buscarContrato(int id){
+        String retorno;
+        ConexionBD.initEntityManager();
+        controlContrato = new ContratoJpaController(ConexionBD.getEmf());
+        Contrato contrato= controlContrato.findContrato(id);
+        if(contrato==null){ 
+            ConexionBD.closeEntityManager();
+            return "";
+        }
+        retorno = contrato.toString();
+        for (Mueble mueble: ConexionBD.getEm().createNamedQuery("Mueble.findByContrato", Mueble.class).setParameter("idContrato", contrato).getResultList()){
+            retorno+= mueble.toString();
+        }
+        ConexionBD.closeEntityManager();
+        return retorno;
     }
 }

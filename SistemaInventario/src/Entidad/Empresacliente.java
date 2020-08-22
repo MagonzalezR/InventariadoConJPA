@@ -152,7 +152,8 @@ public class Empresacliente implements Serializable {
 
     @Override
     public String toString() {
-        return "Entidad.Empresacliente[ idEmpresaCliente=" + idEmpresaCliente + " ]";
+        return "Nombre de la empresa: "+nombreEmpresa+ "\nNit: "+nitEmpresa+"\nDireccion: "+direccionEmpresa
+                +"\nTelefono: "+telefonoEmpresa;
     }
     
 }

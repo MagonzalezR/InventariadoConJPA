@@ -28,9 +28,9 @@ public class VistaAgMuebleAction implements ActionListener{
             controller.irAMenu();
             vista.dispose();
         } else {
-            if (!vista.getNomMueble().getText().equals("") && !vista.getTipoMueble().getText().equals("") && !vista.getCostoMueble().getText().equals("") && !vista.getCantMueble().getText().equals("")) {
+            if (!vista.getNomMueble().getText().equals("") && !vista.getTipoMueble().getText().equals("") && !vista.getCantMueble().getText().equals("")) {
                 try {
-                    controller.agregarMueble(vista.getNomMueble().getText(), vista.getTipoMueble().getText(), Integer.parseInt(vista.getCostoMueble().getText()), Integer.parseInt(vista.getCantMueble().getText()));
+                    controller.agregarMueble(vista.getNomMueble().getText(), vista.getTipoMueble().getText(), Integer.parseInt(vista.getCantMueble().getText()));
                 } catch (NumberFormatException w) {
                     mensaje("El costo del mueble o el identificador no son validos");
                 }

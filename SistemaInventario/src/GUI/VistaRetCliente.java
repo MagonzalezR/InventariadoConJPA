@@ -32,6 +32,7 @@ public class VistaRetCliente extends JFrame{
         this.setBounds(0, 0, 800, 550);
         this.setLocationRelativeTo(null);
         this.setLayout(null);
+        this.setResizable(false);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         initComponents();
     }

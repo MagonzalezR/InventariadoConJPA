@@ -25,8 +25,6 @@ public class ControlCliente {
 
     private ContratistaJpaController controlContratista;
     private EmpresaclienteJpaController controlCliente;
-    private int numCont;
-    private int numEmp;
 
     public ControlCliente() {
 
@@ -34,14 +32,14 @@ public class ControlCliente {
 
     public boolean AgregarCliente(String nomCont, String apeCont, String telCont, String corrCont, String nomEmp, String nitEmp, String dirEmp, String telEmp) {
         try {
+            int numEmp;
             ConexionBD.initEntityManager();
             controlContratista = new ContratistaJpaController(ConexionBD.getEmf());
             controlCliente = new EmpresaclienteJpaController(ConexionBD.getEmf());
-            numEmp = controlCliente.getEmpresaclienteCount() + 1;
-            numCont = controlContratista.getContratistaCount() + 1;
+            numEmp = buscarVacio();
             Empresacliente empresa = new Empresacliente(numEmp, nomEmp, nitEmp, dirEmp, telEmp);
             controlCliente.create(empresa);
-            ContratistaPK pkCont = new ContratistaPK(numCont, numEmp);
+            ContratistaPK pkCont = new ContratistaPK(numEmp, numEmp);
             Contratista cont = new Contratista(pkCont, nomCont, apeCont, telCont, corrCont);
             cont.setEmpresacliente(empresa);
             controlContratista.create(cont);
@@ -103,5 +101,18 @@ public class ControlCliente {
         }
         ConexionBD.closeEntityManager();
         return empresas;
+    }
+    
+    private int buscarVacio(){
+        int loop = controlCliente.getEmpresaclienteCount();
+        int retorno=1;
+        for(int i=1; i<loop+1;i++){
+            if(controlCliente.findEmpresacliente(i)!=null){
+                retorno++;
+            }else {
+                return i;
+            }
+        }
+        return retorno;
     }
 }

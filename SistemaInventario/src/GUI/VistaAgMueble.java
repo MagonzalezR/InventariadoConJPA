@@ -22,11 +22,9 @@ public class VistaAgMueble extends JFrame {
 
     private JTextField nomMueble;
     private JTextField tipoMueble;
-    private JTextField costoMueble;
     private JTextField cantMueble;
     private JLabel nombre;
     private JLabel tipo;
-    private JLabel costo;
     private JLabel cantidad;
     private JButton volver;
     private JButton agregar;
@@ -35,47 +33,40 @@ public class VistaAgMueble extends JFrame {
         this.setBounds(0, 0, 500, 550);
         this.setLocationRelativeTo(null);
         this.setLayout(null);
+        this.setResizable(false);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         initComponents();
     }
 
     private void initComponents() {
         nombre = new JLabel("Nombre del mueble:");
-        nombre.setBounds(100, 50, 125, 40);
+        nombre.setBounds(100, 70, 125, 40);
 
         nomMueble = new JTextField();
-        nomMueble.setBounds(235, 50, 200, 40);
+        nomMueble.setBounds(235, 70, 200, 40);
 
         tipo = new JLabel("Tipo de mueble:");
-        tipo.setBounds(100, 150, 125, 40);
+        tipo.setBounds(100, 190, 125, 40);
 
         tipoMueble = new JTextField();
-        tipoMueble.setBounds(235, 150, 200, 40);
-
-        costo = new JLabel("Costo de alquiler:");
-        costo.setBounds(100, 250, 125, 40);
-
-        costoMueble = new JTextField();
-        costoMueble.setBounds(235, 250, 200, 40);
+        tipoMueble.setBounds(235, 190, 200, 40);
 
         cantidad = new JLabel("Identificador de mueble:");
-        cantidad.setBounds(80, 350, 140, 40);
+        cantidad.setBounds(80, 310, 140, 40);
 
         cantMueble = new JTextField();
-        cantMueble.setBounds(235, 350, 200, 40);
+        cantMueble.setBounds(235, 310, 200, 40);
 
         volver = new JButton("Volver al menu");
         volver.setBounds(80, 440, 150, 40);
 
-        agregar = new JButton("Ingresar mueble(s)");
+        agregar = new JButton("Ingresar mueble");
         agregar.setBounds(250, 440, 150, 40);
 
         this.add(nombre);
         this.add(nomMueble);
         this.add(tipo);
         this.add(tipoMueble);
-        this.add(costo);
-        this.add(costoMueble);
         this.add(cantidad);
         this.add(cantMueble);
         this.add(volver);
@@ -98,52 +89,12 @@ public class VistaAgMueble extends JFrame {
         this.tipoMueble = tipoMueble;
     }
 
-    public JTextField getCostoMueble() {
-        return costoMueble;
-    }
-
-    public void setCostoMueble(JTextField costoMueble) {
-        this.costoMueble = costoMueble;
-    }
-
     public JTextField getCantMueble() {
         return cantMueble;
     }
 
     public void setCantMueble(JTextField cantMueble) {
         this.cantMueble = cantMueble;
-    }
-
-    public JLabel getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(JLabel nombre) {
-        this.nombre = nombre;
-    }
-
-    public JLabel getTipo() {
-        return tipo;
-    }
-
-    public void setTipo(JLabel tipo) {
-        this.tipo = tipo;
-    }
-
-    public JLabel getCosto() {
-        return costo;
-    }
-
-    public void setCosto(JLabel costo) {
-        this.costo = costo;
-    }
-
-    public JLabel getCantidad() {
-        return cantidad;
-    }
-
-    public void setCantidad(JLabel cantidad) {
-        this.cantidad = cantidad;
     }
 
     public JButton getVolver() {

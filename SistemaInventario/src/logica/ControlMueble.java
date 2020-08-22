@@ -28,12 +28,12 @@ public class ControlMueble {
 
     }
 
-    public boolean agregar(String nom, String tipo, int costo, int id) {
+    public boolean agregar(String nom, String tipo, int id) {
         ConexionBD.initEntityManager();
         ConexionBD.getEm().getTransaction().begin();
         controlMueble = new MuebleJpaController(ConexionBD.getEmf());
         Inventarioempresa inventario = ConexionBD.getEm().find(Inventarioempresa.class, 1);
-        Mueble mueble = new Mueble(id, nom, tipo, costo);
+        Mueble mueble = new Mueble(id, nom, tipo);
         mueble.setInventarioEmpresaidInventarioEmpresa(inventario);
         try {
             controlMueble.create(mueble);
@@ -49,11 +49,15 @@ public class ControlMueble {
     }
 
     public String buscarMueble(int id) {
+        String retorno;
         ConexionBD.initEntityManager();
         controlMueble = new MuebleJpaController(ConexionBD.getEmf());
         Mueble mueble = controlMueble.findMueble(id);
         ConexionBD.closeEntityManager();
-        return mueble.toString();
+        if(mueble.getContratoidContrato()!=null){
+            return mueble.toString()+"\nEstá en el contrato: "+mueble.getContratoidContrato().getIdContrato();
+        }
+        return mueble.toString()+"\nEstá en bodega";
     }
 
     public boolean borrarMueble(int id) {
